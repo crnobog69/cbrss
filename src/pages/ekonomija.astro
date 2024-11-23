@@ -1,0 +1,482 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+interface FeedItem {
+  title: string;
+  link: string;
+  description: string;
+  content: string;
+  pubDate: string;
+}
+
+// Function to fetch and parse RSS feed
+async function getFeed() {
+  try {
+    const response = await fetch('https://oko.rts.rs/ekonomija/rss.html');
+    const data = await response.text();
+    const items = data.match(/<item>[\s\S]*?<\/item>/g) || [];
+    return items.map(item => {
+      const title = item.match(/<title>(.*?)<\/title>/)?.[1] || '';
+      const link = item.match(/<link>(.*?)<\/link>/)?.[1] || '';
+      const descriptionMatch = item.match(/<description>([\s\S]*?)<\/description>/);
+      const description = descriptionMatch ? 
+        descriptionMatch[1]
+          .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
+          .replace(/<img[^>]*>/g, '')
+          .trim() : '';
+      const contentMatch = item.match(/<content:encoded>\s*<!\[CDATA\[([\s\S]*?)\]\]>\s*<\/content:encoded>/);
+      const fullContent = contentMatch ? contentMatch[1] : '';
+      const pubDate = item.match(/<pubDate>(.*?)<\/pubDate>/)?.[1] || '';
+      
+      return { title, link, description, content: fullContent, pubDate };
+    });
+  } catch (error) {
+    console.error('Error fetching RSS:', error);
+    return [];
+  }
+}
+
+const feedItems = await getFeed();
+---
+
+<Layout title="Економија">
+  <main>
+    <header class="page-header">
+      <h1>Економија</h1>
+      <p>Извор: РТС Око</p>
+    </header>
+
+    <div class="feed">
+      {feedItems.map(item => (
+        <article class="feed-item">
+          <h2>
+            <a href={item.link} target="_blank" rel="noopener noreferrer" class="title-link">
+              <span class="title-text">{item.title}</span>
+            </a>
+          </h2>
+          <div class="short-description" set:html={item.description}></div>
+          <div class="meta-line">
+            <time>{new Date(item.pubDate).toLocaleDateString('sr-RS')}</time>
+            <button 
+              type="button"
+              class="read-more" 
+              aria-expanded="false"
+              aria-label="Прочитај више"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M7 10l5 5 5-5"/>
+              </svg>
+            </button>
+          </div>
+          <div class="description-container">
+            <div class="description-full" set:html={item.content}></div>
+            <button 
+              type="button"
+              class="close-content"
+              aria-label="затвори"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M17 14l-5-5-5 5"/>
+              </svg>
+            </button>
+          </div>
+        </article>
+      ))}
+    </div>
+  </main>
+</Layout>
+
+<style>
+  main {
+    margin: auto;
+    padding: 1rem;
+    max-width: 800px;
+    color: rgb(var(--text));
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .page-header {
+    text-align: center;
+    margin: 2rem 0 3rem 0;
+    position: relative;
+    z-index: 1;
+    background: rgb(var(--base));
+    padding: 1rem;
+    border-radius: 8px;
+  }
+
+  .page-header h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    color: rgb(var(--text));
+    transform: translateZ(0);
+  }
+
+  .feed {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .feed-item {
+    padding: 1.5rem;
+    position: relative;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    background: rgb(var(--base));
+    border: 1px solid rgb(var(--surface0));
+    transition: transform 0.2s ease;
+    z-index: auto;
+    opacity: 0;
+    animation: fadeInUp 0.5s ease-out forwards;
+  }
+
+  .feed-item::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 8px;
+    padding: 1px;
+    background: linear-gradient(
+      45deg,
+      rgb(var(--lavender)),
+      rgb(var(--blue)),
+      rgb(var(--sapphire)),
+      rgb(var(--lavender))
+    );
+    -webkit-mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    background-size: 300% 300%;
+    animation: borderAnimation 8s linear infinite;
+    opacity: 0.15;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+  }
+
+  .feed-item:hover::before {
+    opacity: 1;
+  }
+
+  @keyframes borderAnimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  .feed-item:hover {
+    transform: translateY(-2px);
+  }
+
+  .title-link,
+  .read-more,
+  .close-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .description-container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .title-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgb(var(--text));
+    text-decoration: none;
+    transition: color 0.2s ease;
+    cursor: pointer;
+  }
+
+  .title-link:hover .title-text {
+    text-decoration: underline;
+  }
+
+  .short-description {
+    margin: 0.8rem 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: rgb(var(--text));
+  }
+
+  .meta-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+  }
+
+  time {
+    color: rgb(var(--subtext0));
+    font-size: 0.9rem;
+  }
+
+  .read-more,
+  .close-content {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgb(var(--text));
+    padding: 0.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+
+  .read-more:hover,
+  .close-content:hover {
+    background: rgb(var(--surface0));
+    transform: translateY(-1px);
+  }
+
+  .read-more:active,
+  .close-content:active {
+    transform: translateY(0);
+  }
+
+  .close-content {
+    margin: 1.5rem auto 0;
+  }
+
+  .read-more[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+  }
+
+  .read-more svg {
+    transition: transform 0.2s ease;
+  }
+
+  .description-full {
+    color: rgb(var(--text));
+    padding: 1rem;
+    border-radius: 4px;
+    border: 1px solid rgb(var(--surface0));
+  }
+
+  .description-container {
+    display: none;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgb(var(--base));
+    border-radius: 4px;
+    opacity: 0;
+    transform-origin: top;
+    will-change: transform, opacity;
+  }
+
+  .description-container.expanded {
+    display: block;
+    animation: expandContent 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .description-container.closing {
+    display: block;
+    animation: collapseContent 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  @keyframes expandContent {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes collapseContent {
+    0% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+  }
+
+  .feed.loading {
+    position: relative;
+    min-height: 200px;
+  }
+
+  .feed.loading::after {
+    content: 'Учитавање...';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgb(var(--text));
+    font-size: 1.2rem;
+    opacity: 0;
+    animation: fadeIn 0.3s ease-in forwards;
+  }
+
+  .description-full {
+    color: rgb(var(--text));
+  }
+
+  .description-full img {
+    max-width: 100%;
+    height: auto;
+    margin: 1rem 0;
+    border-radius: 4px;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .feed-item:nth-child(1) { animation-delay: 0.1s; }
+  .feed-item:nth-child(2) { animation-delay: 0.2s; }
+  .feed-item:nth-child(3) { animation-delay: 0.3s; }
+  .feed-item:nth-child(4) { animation-delay: 0.4s; }
+  .feed-item:nth-child(5) { animation-delay: 0.5s; }
+  .feed-item:nth-child(6) { animation-delay: 0.6s; }
+  .feed-item:nth-child(7) { animation-delay: 0.7s; }
+  .feed-item:nth-child(8) { animation-delay: 0.8s; }
+  .feed-item:nth-child(9) { animation-delay: 0.9s; }
+  .feed-item:nth-child(10) { animation-delay: 1s; }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  main {
+    margin-top: 4rem;
+    padding: 1rem;
+    position: relative;
+    z-index: 1;
+    animation: fadeIn 0.5s ease-in;
+  }
+
+  .title-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgb(var(--text));
+  text-decoration: none;
+  transition: color 0.2s ease;
+  position: relative;
+}
+
+  .title-link:hover {
+    color: rgb(var(--lavender));
+  }
+
+.title-link::after {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgb(114, 135, 253)' %3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transform: translateX(-5px);
+  transition: all 0.2s ease;
+}
+
+/* Dark mode icon */
+:root.dark .title-link::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='rgb(180, 190, 254)' %3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'/%3E%3C/svg%3E");
+}
+
+.title-link:hover::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.title-text {
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    opacity: 0;
+    animation: fadeIn 0.3s ease-in forwards;
+  }
+</style>
+
+<script>
+  function initializeHandlers() {
+    // Read More buttons
+    document.querySelectorAll('.read-more').forEach((button) => {
+      button.addEventListener('click', (e: Event) => {
+        e.stopPropagation();
+        const target = e.currentTarget as HTMLElement;
+        const article = target.closest('.feed-item');
+        const container = article?.querySelector('.description-container');
+        
+        if (container instanceof HTMLElement) {
+          container.classList.toggle('expanded');
+          target.setAttribute('aria-expanded', 
+            container.classList.contains('expanded').toString()
+          );
+        }
+      });
+    });
+
+    // Close buttons with animation and scroll
+    document.querySelectorAll('.close-content').forEach((button) => {
+      button.addEventListener('click', (e: Event) => {
+        e.stopPropagation();
+        const target = e.currentTarget as HTMLElement;
+        const article = target.closest('.feed-item');
+        const container = article?.querySelector('.description-container');
+        const readMoreButton = article?.querySelector('.read-more');
+        
+        if (container instanceof HTMLElement && article) {
+          container.classList.add('closing');
+          container.classList.remove('expanded');
+          
+          // Wait for animation to complete before scrolling
+          container.addEventListener('animationend', () => {
+            container.classList.remove('closing');
+            // Scroll back to the article
+            article.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }, { once: true });
+
+          if (readMoreButton instanceof HTMLElement) {
+            readMoreButton.setAttribute('aria-expanded', 'false');
+          }
+        }
+      });
+    });
+  }
+
+  // Run on page load
+  initializeHandlers();
+
+  // Run again after any dynamic content updates
+  document.addEventListener('astro:page-load', initializeHandlers);
+</script> 

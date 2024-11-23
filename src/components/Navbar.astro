@@ -1,0 +1,529 @@
+---
+---
+
+<nav class="navbar">
+  <div class="navbar-blur"></div>
+  <div class="nav-content">
+    <div class="nav-brand">
+      <a href="/">ЦБ | RSS</a>
+    </div>
+    
+    <div class="nav-items">
+      <div class="dropdown">
+        <button class="dropdown-trigger" aria-expanded="false">Извори</button>
+        <div class="dropdown-content">
+          <a href="/bermudski">Бермудски Троугао</a>
+          <a href="/politika">Политика</a>
+          <a href="/svet">Свет</a>
+          <a href="/istorija">Историја</a>
+          <a href="/kultura">Култура</a>
+          <a href="/ekonomija">Економија</a>
+          <a href="/sport">Спорт</a>
+          <a href="/drustvo">Друштво</a>
+          <a href="/theverge">The Verge</a>
+        </div>
+      </div>
+      
+      <button id="theme-toggle" aria-label="Промени тему">
+        <svg class="theme-icon sun" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
+          <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <circle cx="12" cy="12" r="5" fill="currentColor"/>
+            <g class="sun-beams">
+              <line x1="12" y1="3" x2="12" y2="5"/>
+              <line x1="12" y1="19" x2="12" y2="21"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="3" y1="12" x2="5" y2="12"/>
+              <line x1="19" y1="12" x2="21" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </g>
+          </g>
+        </svg>
+        <svg class="theme-icon moon" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24">
+          <path 
+            class="moon-body" 
+            fill="currentColor"
+            d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1-8.313-12.454z"
+          />
+          <g class="moon-stars" fill="currentColor">
+            <path d="M17 4c0 .28-.21.8-.4.8s-.4-.52-.4-.8.21-.8.4-.8.4.52.4.8z"/>
+            <path d="M19 7c0 .28-.21.8-.4.8s-.4-.52-.4-.8.21-.8.4-.8.4.52.4.8z"/>
+            <path d="M15 8c0 .28-.21.8-.4.8s-.4-.52-.4-.8.21-.8.4-.8.4.52.4.8z"/>
+          </g>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<style>
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgb(var(--surface0));
+}
+
+/* Add a separate layer for the blur effect */
+.navbar-blur {
+  position: absolute;
+  inset: 0;
+  background-color: rgb(var(--base) / 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: -1;
+}
+
+.nav-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.nav-brand {
+  position: relative;
+  z-index: 2;
+}
+
+.nav-brand a {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: rgb(var(--text));
+}
+
+.nav-brand a:hover {
+  color: rgb(var(--lavender));
+  transition: color 0.2s ease;
+}
+
+.nav-items {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-trigger {
+  background: rgb(var(--base));
+  border: 1px solid rgb(var(--surface0));
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  color: rgb(var(--text));
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.dropdown-trigger:hover {
+  background: rgb(var(--surface0));
+  transform: translateY(-1px);
+}
+
+.dropdown-trigger:active {
+  transform: translateY(0);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: rgb(var(--base));
+  min-width: 180px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  border-radius: 4px;
+  z-index: 1;
+  border: 1px solid rgb(var(--surface0));
+  margin-top: 0.5rem;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: none;
+  max-height: calc(100vh - 80px);
+  overflow-y: auto;
+}
+
+.dropdown-content a {
+  color: rgb(var(--text));
+  padding: 0.7rem 1.2rem;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.dropdown-content a:hover {
+  background-color: rgb(var(--surface0));
+  color: rgb(var(--lavender));
+  padding-left: 1.5rem;
+}
+
+.dropdown-content a::after {
+  content: '→';
+  opacity: 0;
+  transform: translateX(-5px);
+  transition: all 0.2s ease;
+}
+
+.dropdown-content a:hover::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.dropdown-content.show {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+#theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: rgb(var(--text));
+  position: relative;
+  width: 24px;
+  height: 24px;
+  transition: transform 0.2s ease;
+}
+
+#theme-toggle:hover {
+  transform: scale(1.1);
+}
+
+.theme-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
+}
+
+/* Sun styles */
+.sun {
+  opacity: 1;
+}
+
+.sun-beams {
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+#theme-toggle:hover .sun-beams {
+  transform: rotate(45deg);
+}
+
+/* Moon styles */
+.moon {
+  opacity: 0;
+}
+
+.moon-body {
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+.moon-stars {
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+#theme-toggle:hover .moon-stars {
+  transform: scale(1.2);
+}
+
+/* Theme switching animations */
+:global(.dark) .sun {
+  opacity: 0;
+}
+
+:global(.dark) .moon {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .nav-content {
+    padding: 0.5rem 1rem;
+  }
+
+  .dropdown-content {
+    position: fixed;
+    top: 3.5rem;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: calc(100vh - 3.5rem);
+    margin-top: 0;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    padding: 0.5rem 0;
+  }
+
+  .dropdown-content a {
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .dropdown-content::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgb(var(--base) / 0.2);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: -1;
+  }
+
+  .dropdown-trigger {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.95rem;
+  }
+
+  .nav-items {
+    gap: 0.8rem;
+  }
+
+  .nav-brand a {
+    font-size: 1.2rem;
+  }
+}
+
+.source-button {
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  padding: 12px 16px;
+  color: rgb(var(--text));
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.source-button:hover {
+  background-color: rgb(var(--surface0));
+}
+
+.dropdown-content {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--surface0)) transparent;
+}
+
+.dropdown-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dropdown-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dropdown-content::-webkit-scrollbar-thumb {
+  background-color: rgb(var(--surface0));
+  border-radius: 3px;
+}
+
+@media (max-width: 768px) {
+  .dropdown-content {
+    position: fixed;
+    top: 3.5rem;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: calc(100vh - 3.5rem);
+    margin-top: 0;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    padding: 0.5rem 0;
+  }
+
+  .dropdown-content a {
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .dropdown-content::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgb(var(--base) / 0.2);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: -1;
+  }
+}
+
+@media (min-width: 769px) {
+  .dropdown {
+    position: relative;
+  }
+
+  .dropdown-content {
+    right: 0;
+    left: auto;
+  }
+}
+
+.dropdown-content.show {
+  animation: dropdownFadeIn 0.2s ease forwards;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+
+<script>
+  const themeToggle = document.getElementById('theme-toggle');
+  
+  function updateTheme(isDark: boolean) {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.setAttribute('data-theme', 'light');
+      localStorage.setItem('theme', 'light');
+    }
+  }
+
+  // Initialize theme from localStorage
+  if (localStorage.getItem('theme') === 'dark' || 
+      (!localStorage.getItem('theme') && 
+       window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    updateTheme(true);
+  } else {
+    updateTheme(false);
+  }
+
+  themeToggle?.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.contains('dark');
+    updateTheme(!isDark);
+  });
+
+  // Listen for system theme changes
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    if (!localStorage.getItem('theme')) {
+      updateTheme(e.matches);
+    }
+  });
+
+  // Add source selection handling
+  document.querySelectorAll('.source-button').forEach(button => {
+    button.addEventListener('click', () => {
+      const source = button.getAttribute('data-source');
+      if (source) {
+        window.location.href = `/?source=${source}`;
+      }
+    });
+  });
+
+  document.querySelectorAll('.dropdown-trigger').forEach(button => {
+    button.addEventListener('click', (e) => {
+      const dropdown = (e.currentTarget as HTMLElement).nextElementSibling;
+      const isExpanded = button.getAttribute('aria-expanded') === 'true';
+      
+      // Close all other dropdowns
+      document.querySelectorAll('.dropdown-content').forEach(content => {
+        if (content !== dropdown) {
+          content.classList.remove('show');
+          content.previousElementSibling?.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      // Toggle current dropdown
+      dropdown?.classList.toggle('show');
+      button.setAttribute('aria-expanded', (!isExpanded).toString());
+    });
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!(e.target as HTMLElement).closest('.dropdown')) {
+      document.querySelectorAll('.dropdown-content').forEach(content => {
+        content.classList.remove('show');
+        content.previousElementSibling?.setAttribute('aria-expanded', 'false');
+      });
+    }
+  });
+
+  function initializeDropdown() {
+    const dropdown = document.querySelector('.dropdown');
+    const trigger = dropdown?.querySelector('.dropdown-trigger');
+    const content = dropdown?.querySelector('.dropdown-content');
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!dropdown?.contains(e.target as Node)) {
+        content?.classList.remove('show');
+        trigger?.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Close dropdown when pressing Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        content?.classList.remove('show');
+        trigger?.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Handle touch events for mobile
+    let touchStartY = 0;
+    content?.addEventListener('touchstart', ((e: Event) => {
+      const touchEvent = e as TouchEvent;
+      touchStartY = touchEvent.touches[0].clientY;
+    }) as EventListener, { passive: true });
+
+    content?.addEventListener('touchmove', ((e: Event) => {
+      const touchEvent = e as TouchEvent;
+      const touchY = touchEvent.touches[0].clientY;
+      const scrollTop = (e.currentTarget as HTMLElement).scrollTop;
+      const scrollHeight = (e.currentTarget as HTMLElement).scrollHeight;
+      const clientHeight = (e.currentTarget as HTMLElement).clientHeight;
+
+      // Prevent default only if trying to scroll past bounds
+      if (
+        (scrollTop === 0 && touchY > touchStartY) || // Trying to scroll up at top
+        (scrollTop + clientHeight >= scrollHeight && touchY < touchStartY) // Trying to scroll down at bottom
+      ) {
+        e.preventDefault();
+      }
+    }) as EventListener);
+  }
+
+  // Initialize on page load
+  initializeDropdown();
+
+  // Re-initialize after dynamic content updates
+  document.addEventListener('astro:page-load', initializeDropdown);
+</script> 
