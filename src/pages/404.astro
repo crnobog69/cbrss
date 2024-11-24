@@ -1,0 +1,269 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="404 | Страница Није Пронађена">
+  <div class="error-page-wrapper">
+    <main>
+      <div class="error-container">
+        <h1>404</h1>
+        <p class="error-message">Страница Није Пронађена</p>
+        <p class="error-description">
+          Страница коју тражите не постоји или је премештена.
+        </p>
+        <div class="action-container">
+          <a href="/" class="home-button">
+            <svg 
+              width="24" 
+              height="24" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              stroke-width="2" 
+              stroke-linecap="round"
+            >
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            Назад на Почетну
+          </a>
+        </div>
+      </div>
+    </main>
+  </div>
+</Layout>
+
+<style>
+  .error-page-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(var(--text));
+    position: relative;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  main::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+      radial-gradient(1px 1px at 10% 10%, rgb(var(--text)) 50%, transparent),
+      radial-gradient(1px 1px at 20% 20%, rgb(var(--blue)) 50%, transparent),
+      radial-gradient(1px 1px at 30% 30%, rgb(var(--lavender)) 50%, transparent),
+      radial-gradient(1px 1px at 40% 40%, rgb(var(--sapphire)) 50%, transparent);
+    background-size: 300px 300px;
+    animation: twinkle 15s ease-in-out infinite alternate;
+    opacity: 0.3;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .error-container {
+    text-align: center;
+    background: rgb(var(--base));
+    padding: clamp(1.5rem, 5vw, 3rem);
+    border-radius: 12px;
+    box-shadow: 0 0 0 1px rgb(var(--surface0));
+    animation: fadeInUp 0.5s ease-out forwards;
+    position: relative;
+    z-index: 1;
+    width: min(90%, 500px);
+  }
+
+  .error-container::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 12px;
+    padding: 1px;
+    background: linear-gradient(
+      45deg,
+      rgb(var(--lavender)),
+      rgb(var(--blue)),
+      rgb(var(--sapphire)),
+      rgb(var(--lavender))
+    );
+    -webkit-mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    background-size: 300% 300%;
+    animation: borderAnimation 8s linear infinite;
+    opacity: 0.15;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+  }
+
+  h1 {
+    font-size: clamp(4rem, 15vw, 8rem);
+    line-height: 1;
+    margin: 0;
+    background: linear-gradient(
+      300deg,
+      rgb(var(--green)) 0%,
+      rgb(var(--text)) 25%,
+      rgb(var(--lavender)) 50%,
+      rgb(var(--green)) 75%,
+      rgb(var(--text)) 100%
+    );
+    background-size: 200% auto;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: gradient 3s linear infinite;
+  }
+
+  .error-message {
+    font-size: clamp(1.25rem, 4vw, 1.5rem);
+    margin: 1rem 0;
+    color: rgb(var(--text));
+  }
+
+  .error-description {
+    font-size: clamp(0.9rem, 3vw, 1rem);
+    color: rgb(var(--subtext0));
+    margin: 0.5rem 0 1.5rem 0;
+    max-width: 25ch;
+    margin-inline: auto;
+  }
+
+  .action-container {
+    margin-top: clamp(1rem, 3vw, 2rem);
+  }
+
+  .home-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    background: rgb(var(--base));
+    color: rgb(var(--text));
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+    position: relative;
+    border: 1px solid rgb(var(--surface0));
+  }
+
+  .home-button::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 8px;
+    padding: 1px;
+    background: linear-gradient(
+      45deg,
+      rgb(var(--lavender)),
+      rgb(var(--blue)),
+      rgb(var(--sapphire)),
+      rgb(var(--lavender))
+    );
+    -webkit-mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    background-size: 300% 300%;
+    animation: borderAnimation 8s linear infinite;
+    opacity: 0.15;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+  }
+
+  .home-button:hover::before {
+    opacity: 1;
+  }
+
+  .home-button:hover {
+    transform: translateY(-2px);
+  }
+
+  .home-button:active {
+    transform: translateY(0);
+  }
+
+  .home-button svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.5; }
+  }
+
+  @keyframes gradient {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+
+  @keyframes borderAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .error-container {
+      margin: 0.5rem;
+      padding: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1400px) {
+    .error-container {
+      max-width: 600px;
+    }
+  }
+
+  @media (max-height: 500px) {
+    main {
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+    
+    h1 {
+      font-size: clamp(3rem, 10vw, 6rem);
+    }
+
+    .error-message {
+      margin: 0.5rem 0;
+    }
+
+    .error-description {
+      margin-bottom: 1rem;
+    }
+  }
+</style> 
