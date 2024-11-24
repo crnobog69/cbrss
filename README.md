@@ -1,5 +1,7 @@
 # <p align="center"> 📰 | cbrss </p>
 
+#### <p align="center">Прилагођени RSS читач направљен са Astro 🚀, Bun 🍞, TypeScript 📜</p>
+
 <br>
 
 <div align="center">
