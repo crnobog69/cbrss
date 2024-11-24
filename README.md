@@ -58,17 +58,17 @@
 
 ## За урадити
 
-[ ] Поправити Тањуг
-<br>
-[ ] Поправити The Verge
-<br>
-[ ] Додати [Спутњик Србија](https://rs-lat.sputniknews.com/export/rss2/archive/index.xml)
-<br>
-[ ] Додати [Спутњик Србија Odysee](https://odysee.com/$/rss/@Sputnjik.Srbija:7)
-<br>
-[ ] Додати [Влада Републике Србије](https://www.srbija.gov.rs/rss/?change_lang=cr)
-<br>
-[ ] Додати [РТС :: Србија Данас](http://www.rts.rs/page/stories/ci/rss/56/srbija-danas.html)
+- [ ] Поправити Тањуг
+      <br>
+- [ ] Поправити The Verge
+      <br>
+- [ ] Додати [Спутњик Србија](https://rs-lat.sputniknews.com/export/rss2/archive/index.xml)
+      <br>
+- [ ] Додати [Спутњик Србија Odysee](https://odysee.com/$/rss/@Sputnjik.Srbija:7)
+      <br>
+- [ ] Додати [Влада Републике Србије](https://www.srbija.gov.rs/rss/?change_lang=cr)
+      <br>
+- [ ] Додати [РТС :: Србија Данас](http://www.rts.rs/page/stories/ci/rss/56/srbija-danas.html)
 
 ## <p align="center"> 🚀 Astro</p>
 
