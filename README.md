@@ -60,6 +60,7 @@
 
 ## <p align="center">🛠️ За Урадити</p>
 
+<p align="center">
 - [ ] Поправити Тањуг
       <br>
 - [ ] Поправити The Verge
@@ -71,6 +72,7 @@
 - [ ] Додати [Влада Републике Србије](https://www.srbija.gov.rs/rss/?change_lang=cr)
       <br>
 - [ ] Додати [РТС :: Србија Данас](http://www.rts.rs/page/stories/ci/rss/56/srbija-danas.html)
+</p>
 
 ## <p align="center"> 🚀 Astro</p>
 
