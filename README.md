@@ -1,5 +1,7 @@
 # <p align="center"> 📰 | cbrss </p>
 
+<br>
+
 <div align="center">
 <p>
 <a href="https://github.com/crnobog69/cbrss/stargazers"><img src="https://img.shields.io/github/stars/crnobog69/cbrss?style=for-the-badge&logo=starship&color=C9CBFF&logoColor=C9CBFF&labelColor=302D41" alt="stars"><a>&nbsp;&nbsp;
@@ -9,21 +11,59 @@
 </p>
 </div>
 
+<br>
+
+```Markdown
+┌── .github
+│   └── workflows
+│       └── workflow.yml
+│
+├── .vscode
+│   ├── extensions.json
+│   └── launch.json
+│
+├── public
+│   ├── astro.svg
+│   └── favicon.svg
+│
+├── src
+│   ├── components
+│   │   ├── Card.astro
+│   │   └── Navbar.astro
+│   ├── layouts
+│   │   └── Layout.astro
+│   └── pages
+│       ├── bermudski.astro
+│       ├── drustvo.astro
+│       ├── ekonomija.astro
+│       ├── index.astro
+│       ├── istorija.astro
+│       ├── kultura.astro
+│       ├── politika.astro
+│       ├── sport.astro
+│       ├── svet.astro
+│       ├── tanjug.astro
+│       └── theverge.astro
+│
+├── env.d.ts
+├── .directory
+├── .gitignore
+├── LICENSE
+├── README.md
+├── astro.config.mjs
+├── bun.lockb
+├── package.json
+└── tsconfig.json
+```
+
 ## <p align="center"> 🚀 Astro</p>
 
-### 🧞 Команде
+```bash
+bun install
+```
 
-Све команде се покрећу из корена пројекта, из терминала:
+```bash
+bun run dev
+```
 
-| Команда                   | Акција                                             |
-| :------------------------ | :------------------------------------------------- |
-| `bun install`             | Инсталира зависности                               |
-| `bun run dev`             | Покреће локални сервер на `localhost:4321`         |
-| `bun run build`           | Прави продукцијски сајт у `./dist/`                |
-| `bun run preview`         | Прегледај изграђени сајт локално                   |
-| `bun run astro ...`       | Покрени CLI команде као `astro add`, `astro check` |
-| `bun run astro -- --help` | Добиј помоћ за коришћење Astro CLI-а               |
-
-## 👀 Желите да сазнате више?
-
-Слободно погледајте [нашу документацију](https://docs.astro.build) или се придружите нашем [Discord серверу](https://astro.build/chat).
+#### <p align="center">🍂 Јесени господње 2024</p>
