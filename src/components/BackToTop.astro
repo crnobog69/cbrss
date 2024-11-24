@@ -1,0 +1,126 @@
+---
+---
+
+<button 
+  id="back-to-top" 
+  aria-label="Назад на врх"
+  class="back-to-top"
+>
+  <svg 
+    width="24" 
+    height="24" 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    stroke-width="2" 
+    stroke-linecap="round"
+  >
+    <path d="M18 15l-6-6-6 6"/>
+  </svg>
+</button>
+
+<style>
+  .back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: rgb(var(--base));
+    border: 1px solid rgb(var(--surface0));
+    border-radius: 8px;
+    padding: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    z-index: 100;
+  }
+
+  .back-to-top::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 8px;
+    padding: 1px;
+    background: linear-gradient(
+      45deg,
+      rgb(var(--lavender)),
+      rgb(var(--blue)),
+      rgb(var(--sapphire)),
+      rgb(var(--lavender))
+    );
+    -webkit-mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    background-size: 300% 300%;
+    animation: borderAnimation 8s linear infinite;
+    opacity: 0.15;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+  }
+
+  .back-to-top:hover::before {
+    opacity: 1;
+  }
+
+  .back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .back-to-top:hover {
+    transform: translateY(-2px);
+  }
+
+  .back-to-top:active {
+    transform: translateY(0);
+  }
+
+  @keyframes borderAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  @media (max-width: 768px) {
+    .back-to-top {
+      bottom: 1rem;
+      right: 1rem;
+      padding: 0.6rem;
+    }
+  }
+</style>
+
+<script>
+  function initBackToTop() {
+    const button = document.getElementById('back-to-top');
+    if (!button) return;
+
+    const toggleVisibility = () => {
+      if (window.scrollY > 300) {
+        button.classList.add('visible');
+      } else {
+        button.classList.remove('visible');
+      }
+    };
+
+    const scrollToTop = () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    };
+
+    window.addEventListener('scroll', toggleVisibility);
+    button.addEventListener('click', scrollToTop);
+  }
+
+  // Run on page load
+  initBackToTop();
+
+  // Run again after any dynamic content updates
+  document.addEventListener('astro:page-load', initBackToTop);
+</script> 

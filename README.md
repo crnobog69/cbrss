@@ -30,11 +30,13 @@
 │
 ├── src
 │   ├── components
+│   │   ├── BackToTop.astro
 │   │   ├── Card.astro
 │   │   └── Navbar.astro
 │   ├── layouts
 │   │   └── Layout.astro
 │   └── pages
+│       ├── 404.astro
 │       ├── bermudski.astro
 │       ├── drustvo.astro
 │       ├── ekonomija.astro

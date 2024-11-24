@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import BackToTop from '../components/BackToTop.astro';
 
 interface FeedItem {
   title: string;
@@ -131,6 +132,7 @@ console.log('Parsed feed items:', feedItems.length); // Debug log
       ))}
     </div>
   </main>
+  <BackToTop />
 </Layout>
 
 <style>

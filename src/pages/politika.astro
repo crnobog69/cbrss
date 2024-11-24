@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import BackToTop from '../components/BackToTop.astro';
 
 interface FeedItem {
   title: string;
@@ -84,6 +85,7 @@ const feedItems = await getFeed();
       ))}
     </div>
   </main>
+  <BackToTop />
 </Layout>
 
 <style>
@@ -262,17 +264,13 @@ const feedItems = await getFeed();
 
   .description-full {
     color: rgb(var(--text));
-    padding: 1rem;
-    border-radius: 4px;
-    border: 1px solid rgb(var(--surface0));
+    line-height: 1.6;
+    font-size: clamp(0.95rem, 3vw, 1rem);
   }
 
   .description-container {
     display: none;
     margin-top: 1rem;
-    padding: 1rem;
-    background: rgb(var(--base));
-    border-radius: 4px;
     opacity: 0;
     transform-origin: top;
     will-change: transform, opacity;
@@ -286,6 +284,18 @@ const feedItems = await getFeed();
   .description-container.closing {
     display: block;
     animation: collapseContent 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  /* Remove redundant padding and borders from description containers */
+  .description-full {
+    padding: 0;
+    border: none;
+  }
+
+  .description-container {
+    padding: 0;
+    background: none;
+    border-radius: 0;
   }
 
   @keyframes expandContent {
@@ -327,16 +337,6 @@ const feedItems = await getFeed();
     animation: fadeIn 0.3s ease-in forwards;
   }
 
-  .description-full {
-    color: rgb(var(--text));
-  }
-
-  .description-full img {
-    max-width: 100%;
-    height: auto;
-    margin: 1rem 0;
-    border-radius: 4px;
-  }
 
   @keyframes fadeInUp {
     from {
