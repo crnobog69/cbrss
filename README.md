@@ -56,6 +56,15 @@
 └── tsconfig.json
 ```
 
+## За урадити
+
+- [] Поправити Тањуг
+- [] Поправити The Verge
+- [] Додати [Спутњик Србија](https://rs-lat.sputniknews.com/export/rss2/archive/index.xml)
+- [] Додати [Спутњик Србија Odysee](https://odysee.com/$/rss/@Sputnjik.Srbija:7)
+- [] Додати [Влада Републике Србије](https://www.srbija.gov.rs/rss/?change_lang=cr)
+- [] Додати [РТС :: Србија Данас](http://www.rts.rs/page/stories/ci/rss/56/srbija-danas.html)
+
 ## <p align="center"> 🚀 Astro</p>
 
 ```bash
