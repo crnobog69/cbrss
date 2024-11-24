@@ -265,17 +265,13 @@ const feedItems = await getFeed();
 
   .description-full {
     color: rgb(var(--text));
-    padding: 1rem;
-    border-radius: 4px;
-    border: 1px solid rgb(var(--surface0));
+    line-height: 1.6;
+    font-size: clamp(0.95rem, 3vw, 1rem);
   }
 
   .description-container {
     display: none;
     margin-top: 1rem;
-    padding: 1rem;
-    background: rgb(var(--base));
-    border-radius: 4px;
     opacity: 0;
     transform-origin: top;
     will-change: transform, opacity;
@@ -334,11 +330,9 @@ const feedItems = await getFeed();
     color: rgb(var(--text));
   }
 
-  .description-full img {
-    max-width: 100%;
-    height: auto;
-    margin: 1rem 0;
-    border-radius: 4px;
+  .description-full {
+    padding: 0;
+    border: none;
   }
 
   @keyframes fadeInUp {
